@@ -61,8 +61,8 @@ module BandedSWAccelerator #(parameter B = 4, parameter L = 8)(
     wire [3 * L - 1 : 0] R_temp; 
 
     
-assign Q_temp = Q >> count2; 
-assign R_temp = R >> count3; 
+assign Q_temp = Q << count2; 
+assign R_temp = R << count3; 
 
 always @(posedge clk) begin
 	if(start) begin
@@ -82,7 +82,7 @@ always @(posedge clk) begin
     end
     else if(count2 < 3 * B - 1) begin
         pe_ctr <= pe_ctr + 1; 
-        in_q <= Q_temp[2:0];
+	    in_q <= Q_temp[(3*L)-1:(3*L)-3];
 		en_q <= 1;
 		reset <= 0;
 		in_r <= 0;
@@ -101,7 +101,7 @@ always @(posedge clk) begin
 			in_q <= 0;
 			en_q <= 0;
 			reset <= 0;
-            in_r <= R_temp[2:0];
+            in_r <= R_temp[(3*L)-1:(3*L)-3];
 			en_r <= 1;
 			dir_r <= 1;
 			dir_q <= 0;
@@ -113,14 +113,14 @@ always @(posedge clk) begin
 		end
         else if(count1 < 2 * L - B) begin
 			if(count1 % 2 == 0) begin
-                in_q <= Q_temp[2:0];
+                in_q <= Q_temp[(3*L)-1:(3*L)-3];
 				en_q <= 1;
 				reset <= 0;
 				in_r <= 0;
 				en_r <= 0;
 				dir_r <= 1;
 				dir_q <= 0;
-				count1 <= count1;
+				count1 <= count1 + 1;
 				count2 <= count2 + 3; 
 				count3 <= count3; 
 				pe_valid <= 1;
@@ -130,7 +130,7 @@ always @(posedge clk) begin
 				in_q <= 0;
 				en_q <= 0;
 				reset <= 0;
-                in_r <= R_temp[2:0];
+                in_r <= R_temp[(3*L)-1:(3*L)-3];
 				en_r <= 1;
 				dir_r <= 1;
 				dir_q <= 0;
