@@ -4,9 +4,9 @@
 // Purpose         : Realises the Traceback Module
      
 
-module tbmodule (
-    input [2: 0] R_sub[0:L-1],		// R subsequence
-    input [2: 0] Q_sub[0:L-1],		// Q subsequence
+module tbmodule #(parameter B = 4, parameter L = 8)(
+    input [3 * L - 1 : 0] R_sub,		// R subsequence
+    input [3 * L - 1 : 0] Q_sub,		// Q subsequence
     input clk,
     input start_traceback,              // Start traceback signal
     output [1:0] pe_id,			// PE id
@@ -30,10 +30,15 @@ reg activated;
 reg finish;
 
 
+    wire [3 * L - 1 : 0] R_sub_temp;
+    wire [3 * L - 1 : 0] Q_sub_temp;
+    
+    assign R_sub_temp = R_sub >> (3 * r_ctr); 
+    assign Q_sub_temp = Q_sub >> (3 * q_ctr); 
 
 	always @(posedge clk)
 	begin
-	   if (start_traceback) && (!activated) begin
+	   if ((start_traceback) && (!activated)) begin
 	      pe_id <= 3;
 	      addr <= 11;         // 2*L - B - 1
 	      out_r <= 3'b111;
@@ -43,24 +48,24 @@ reg finish;
 	      finish <= 0;
 	      activated <= 1;
 	      end
-	   else if (start_traceback) && (activated) begin             //Traceback begins at bottom right cell
-	     if r_ctr == 3'b000 && q_ctr == 3'b000 begin	// Hit top left corner - traceback finished successfully
+	   else if ((start_traceback) && (activated)) begin             //Traceback begins at bottom right cell
+	     if (r_ctr == 3'b000 && q_ctr == 3'b000) begin	// Hit top left corner - traceback finished successfully
 	      pe_id <= 0;
 	      addr <= 0;         
-	      out_r <= R_sub[r_ctr];
-	      out_q <= Q_sub[q_ctr];
+          out_r <= R_sub_temp[2:0];
+          out_q <= Q_sub_temp[2:0];
 	      r_ctr <= 0; 	  
 	      q_ctr <= 0;	  
 	      finish <= 1;
 	      activated <= 1;
 	      end
 	     else begin
-		case rel_pos 
+		case(rel_pos) 
 		3'b001: begin 
 			pe_id <= pe_id -1;
 			addr <= addr;
 			out_r <= 3'b100;
-			out_q <= Q_sub[q_ctr];
+			out_q <= Q_sub_temp[2:0];
 			r_ctr <= r_ctr;
 			q_ctr <= q_ctr - 1;
 			finish <= 0;
@@ -69,7 +74,7 @@ reg finish;
 		3'b010: begin
 			pe_id <= pe_id;
 			addr <= addr - 1;
-			out_r <= R_sub[r_ctr];
+			out_r <= R_sub_temp[2:0];
 			out_q <= "---";
 			r_ctr <= r_ctr - 1;
 			q_ctr <= q_ctr;
@@ -79,8 +84,8 @@ reg finish;
 		3'b011: begin
 			pe_id <= pe_id -1;
 			addr <= addr - 1;
-			out_r <= R_sub[r_ctr];
-			out_q <= Q_sub[q_ctr];
+			out_r <= R_sub_temp[2:0];
+			out_q <= Q_sub_temp[2:0];
 			r_ctr <= r_ctr - 1;
 			q_ctr <= q_ctr - 1;
 			finish <= 0;
@@ -90,7 +95,7 @@ reg finish;
 			pe_id <= pe_id;
 			addr <= addr - 2;
 			out_r <= 3'b100;
-			out_q <= Q_sub[q_ctr];
+			out_q <= Q_sub_temp[2:0];
 			r_ctr <= r_ctr;
 			q_ctr <= q_ctr - 1;
 			finish <= 0;
@@ -98,9 +103,9 @@ reg finish;
 			end
 		3'b101: begin
 			pe_id <= pe_id;
-			addr <= add - 1;
+			addr <= addr - 1;
 			out_r <= 3'b100;
-			out_q <= Q_sub[q_ctr];
+			out_q <= Q_sub_temp[2:0];
 			r_ctr <= r_ctr;
 			q_ctr <= q_ctr - 1;
 			finish <= 0;
@@ -109,7 +114,7 @@ reg finish;
 		3'b110: begin
 			pe_id <= pe_id + 1;
 			addr <= addr -2;
-			out_r <= R_sub[r_ctr];
+			out_r <= R_sub_temp[2:0];
 			out_q <= 3'b100;
 			r_ctr <= r_ctr - 1;
 			q_ctr <= q_ctr;
@@ -119,14 +124,14 @@ reg finish;
 		default: begin				// Hit a null vector (in case of 3'b111) - Exit
 			 pe_id <= 0;
 			 addr <= 0;
-			 out_r <= R_sub[r_ctr];
-			 out_q <= Q_sub[q_ctr];
+			 out_r <= R_sub_temp[2:0];
+			 out_q <= Q_sub_temp[2:0];
 			 r_ctr <= r_ctr - 1;
 			 q_ctr <= q_ctr - 1;
 			 finish <= 1;
 			 activated <= 1;
  			 end
-		end
+		endcase
 	      end
 	   end
 	   else begin
