@@ -58,7 +58,7 @@ module accelerator_tb ();
                 @(posedge clk);
             end
 
-            $display("Aligned Sequences-1 - %h , %h",$signed(R),$signed(Q));
+		$display("Aligned Sequences-1 - %h , %h",$signed(R_aligned),$signed(Q_aligned));
 //            $display("Aligned Sequences-2 - %h , %h",$signed(R_aligned[1],Q_aligned[1]));
 //            $display("Aligned Sequences-3 - %h , %h",$signed(R_aligned[2],Q_aligned[2]));
 //            $display("Aligned Sequences-4 - %h , %h",$signed(R_aligned[3],Q_aligned[3]));
