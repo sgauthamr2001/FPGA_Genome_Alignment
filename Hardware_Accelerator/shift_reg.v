@@ -10,8 +10,12 @@ module shift_reg(
     wire [11 : 0] temp1;
     wire [11 : 0] temp2;
 
-    assign temp1 = out >> 3; 
-    assign temp2 = out << 3; 
+    assign temp1 = out << 3; 
+    assign temp2 = out >> 3; 
+    
+    initial begin
+        out = 0;
+    end 
 
     always @ (posedge clk) 
         if(reset)

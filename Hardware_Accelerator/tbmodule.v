@@ -33,8 +33,8 @@ reg finish;
     wire [3 * L - 1 : 0] R_sub_temp;
     wire [3 * L - 1 : 0] Q_sub_temp;
     
-    assign R_sub_temp = R_sub >> (3 * r_ctr); 
-    assign Q_sub_temp = Q_sub >> (3 * q_ctr); 
+    assign R_sub_temp = R_sub >> (3 * (7-r_ctr)); 
+    assign Q_sub_temp = Q_sub >> (3 * (7-q_ctr)); 
 
 	always @(posedge clk)
 	begin
@@ -75,7 +75,7 @@ reg finish;
 			pe_id <= pe_id;
 			addr <= addr - 1;
 			out_r <= R_sub_temp[2:0];
-			out_q <= "---";
+			out_q <= 3'b100;
 			r_ctr <= r_ctr - 1;
 			q_ctr <= q_ctr;
 			finish <= 0;
@@ -94,9 +94,9 @@ reg finish;
 		3'b100: begin
 			pe_id <= pe_id;
 			addr <= addr - 2;
-			out_r <= 3'b100;
+			out_r <= R_sub_temp[2:0];
 			out_q <= Q_sub_temp[2:0];
-			r_ctr <= r_ctr;
+			r_ctr <= r_ctr - 1;
 			q_ctr <= q_ctr - 1;
 			finish <= 0;
 			activated <= 1;

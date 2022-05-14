@@ -9,6 +9,12 @@ module accelerator_tb ();
     //    wire [31:0] image, result0, result1, result2, result3, result4, result5, result6, result7, result8, result9, ctr1;
 
 //	input start,
+
+    initial
+    begin
+        $dumpfile("test.vcd");
+        $dumpvars;
+    end
     
     wire [23 : 0] R ;
     wire [23 : 0] Q ;
@@ -16,7 +22,11 @@ module accelerator_tb ();
     wire [29:0] Q_aligned;
     wire ready;
 
-    wire [7:0] pe_mem; 
+    wire [95:0] pe_mem1; 
+    wire [95:0] pe_mem2;
+    wire [95:0] pe_mem3;
+    wire [95:0] pe_mem4;
+    
     
     integer i;    // Clock loop variable 
     
@@ -30,7 +40,10 @@ module accelerator_tb ();
         .R_aligned(R_aligned),
         .Q_aligned(Q_aligned),
         .ready(ready),
-        .pe_mem(pe_mem)
+        .pe_mem1(pe_mem1),
+        .pe_mem2(pe_mem2),
+        .pe_mem3(pe_mem3),
+        .pe_mem4(pe_mem4)
 	);
 
     // Initiating the image data module
@@ -60,8 +73,16 @@ module accelerator_tb ();
                 @(posedge clk);
             end
 
-		    $display("Aligned Sequences-1 - %h , %h",$signed(R_aligned),$signed(Q_aligned));
-            $display("Traceback_memory  - %h", pe_mem);
+		    $display("Aligned Sequences-1 - %b , %b",$signed(R_aligned),$signed(Q_aligned));
+            $display("Traceback_memory-1");
+            $display("%h ", pe_mem1);
+            $display("Traceback_memory-2");
+            $display("%h ", pe_mem2);
+            $display("Traceback_memory-3");
+            $display("%h ", pe_mem3);
+            $display("Traceback_memory-4");
+            $display("%h ", pe_mem4);
+            
 //            $display("Aligned Sequences-3 - %h , %h",$signed(R_aligned[2],Q_aligned[2]));
 //            $display("Aligned Sequences-4 - %h , %h",$signed(R_aligned[3],Q_aligned[3]));
 //            $display("Aligned Sequences-5 - %h , %h",$signed(R_aligned[4],Q_aligned[4]));
