@@ -1,6 +1,6 @@
 ### Hardware Accelerator for BandedSW (Verilog HDL)
 
-- To exploit parallelism and efficient usage of data between computations, a systolic array based architecture is adopted with 4 PE units for a bandwidth of 4 units. 
+- To exploit parallelism and efficient usage of data between computations, a systolic array based architecture is adopted with 4 PE units for a bandwidth of 4. 
 - Temporary data between scoring and traceback phase is stored in the BRAMs. 
 - Several modules above can be correlated with the schematic taken from source. 
 
