@@ -15,14 +15,13 @@ module traceback #(parameter B = 4, parameter L = 8)(
     input  [7:0] rel_pos,		          // Relative position byte, from the tb. memory BRAM, corresponding to pe_id and addr.
     output reg [2:0] out_r,			      // Output base pair of reference.
     output reg [2:0] out_q,			      // Output base pair of query.
-    output finish                         // Flag that indicates traceback is over -- stop reading the output from traceback immediately.
+    output reg finish                         // Flag that indicates traceback is over -- stop reading the output from traceback immediately.
 );
 
 	reg [2:0] r_ctr;       // Counter for keeping track of R sub-sequence.
 	reg [2:0] q_ctr;       // Counter for keeping track of Q sub-sequence.
 
 	reg activated;         // Activates the unit to start the traceback. 
-	reg finish;            // Indicated the completion of traceback.
 
 	wire [3 * L - 1 : 0] R_sub_temp;         // Stores the right shifted version of R sub-sequence. 
 	wire [3 * L - 1 : 0] Q_sub_temp;         // Stores the right shifted version of Q sub-sequence. 
