@@ -14,7 +14,6 @@ module shift_reg(
     input clk,                     // clk input.
     input en,                      // Enable signal - if high, the shift register is shifted. Else it remains in its current state.
     input dir,                     // Direction of shifting.
-    input reset,                   // Reset the registers to 0.
     output reg [11 : 0] out        // Output of the 4. 
 ); 
 
@@ -28,19 +27,17 @@ module shift_reg(
         out = 0;
     end 
 
-    always @ (posedge clk) 
-        if(reset)
-            out <= 0;                                 // Reset the registers to 0. 
-        else begin 
-            if(en)                                    // Checks if shift is enabled.
-                if(dir) begin                         // Checks for the direction of shifting.
-                    out <= {temp1[11 : 3], in};       // dir = 1 (for R) implies a left shift, and the lowest base pair is loaded in from the serial input.
-                end 
-                else begin 
-                    out <= {in, temp2[8 : 0]};        // dir = 0 (for Q) implies a right shift, and the highest base pair is loaded in from the serial input.
-                end 
-            else
-                out <= out;                           // If shift is not enabled, retain the same values in register.
+    always @ (posedge clk) begin 
+        if(en) begin                              // Checks if shift is enabled.
+            if(dir) begin                         // Checks for the direction of shifting.
+                out <= {temp1[11 : 3], in};       // dir = 1 (for R) implies a left shift, and the lowest base pair is loaded in from the serial input.
+            end 
+            else begin 
+                out <= {in, temp2[8 : 0]};        // dir = 0 (for Q) implies a right shift, and the highest base pair is loaded in from the serial input.
+            end 
         end 
+        else
+            out <= out;                           // If shift is not enabled, retain the same values in register.
+    end 
 
 endmodule        // shift_reg 

@@ -10,22 +10,16 @@ module traceback #(parameter B = 4, parameter L = 8)(
     input [3 * L - 1 : 0] Q_sub,		  // Q sub-sequence.
     input clk,                            // clk signal. 
     input start_traceback,                // Start signal for traceback.
-    output [1:0] pe_id,					  // PE id
-    output [7:0] addr,		  		      // addr - Byte addressed in the BRAM.
+    output reg [1:0] pe_id,			      // PE id
+    output reg [7:0] addr,		  		  // addr - Byte addressed in the BRAM.
     input  [7:0] rel_pos,		          // Relative position byte, from the tb. memory BRAM, corresponding to pe_id and addr.
-    output [2:0] out_r,			          // Output base pair of reference.
-    output [2:0] out_q,			          // Output base pair of query.
+    output reg [2:0] out_r,			      // Output base pair of reference.
+    output reg [2:0] out_q,			      // Output base pair of query.
     output finish                         // Flag that indicates traceback is over -- stop reading the output from traceback immediately.
 );
 
 	reg [2:0] r_ctr;       // Counter for keeping track of R sub-sequence.
 	reg [2:0] q_ctr;       // Counter for keeping track of Q sub-sequence.
-
-	reg [1:0] pe_id;       // 2 bit PE id.
-	reg [7:0] addr;        // Byte address of the BRAM.
-
-	reg [2:0] out_r;       // Output of the current alignment of reference.
-	reg [2:0] out_q;       // Output of the current alignment of query. 
 
 	reg activated;         // Activates the unit to start the traceback. 
 	reg finish;            // Indicated the completion of traceback.
