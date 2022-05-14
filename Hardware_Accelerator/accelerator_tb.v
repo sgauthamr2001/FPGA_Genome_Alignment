@@ -39,11 +39,11 @@ module accelerator_tb ();
         .Q(Q),
         .R_aligned(R_aligned),
         .Q_aligned(Q_aligned),
-        .ready(ready),
-        .pe_mem1(pe_mem1),
-        .pe_mem2(pe_mem2),
-        .pe_mem3(pe_mem3),
-        .pe_mem4(pe_mem4)
+        .ready(ready)
+//        .pe_mem1(pe_mem1),
+//        .pe_mem2(pe_mem2),
+//        .pe_mem3(pe_mem3),
+//        .pe_mem4(pe_mem4)
 	);
 
     // Initiating the image data module
@@ -73,15 +73,15 @@ module accelerator_tb ();
                 @(posedge clk);
             end
 
-		    $display("Aligned Sequences-1 - %b , %b",$signed(R_aligned),$signed(Q_aligned));
-            $display("Traceback_memory-1");
-            $display("%h ", pe_mem1);
-            $display("Traceback_memory-2");
-            $display("%h ", pe_mem2);
-            $display("Traceback_memory-3");
-            $display("%h ", pe_mem3);
-            $display("Traceback_memory-4");
-            $display("%h ", pe_mem4);
+            $display("Aligned Sequences-1 - %b , %b",$signed(R_aligned),$signed(Q_aligned));
+//            $display("Traceback_memory-1");
+//            $display("%h ", pe_mem1);
+//            $display("Traceback_memory-2");
+//            $display("%h ", pe_mem2);
+//            $display("Traceback_memory-3");
+//            $display("%h ", pe_mem3);
+//            $display("Traceback_memory-4");
+//            $display("%h ", pe_mem4);
             
 //            $display("Aligned Sequences-3 - %h , %h",$signed(R_aligned[2],Q_aligned[2]));
 //            $display("Aligned Sequences-4 - %h , %h",$signed(R_aligned[3],Q_aligned[3]));
