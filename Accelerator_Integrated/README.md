@@ -16,4 +16,4 @@ This shall print out the aligned sub-sequences in hexadecimal.
 
 Schematic : 
 
-![alt text](https://github.com/sgauthamr2001/FPGA_Genome_Alignment/blob/main/Hardware_Accelerator/schematic.png)
+![architecture](https://user-images.githubusercontent.com/85408861/168463388-df4f14fc-21f9-4a43-a98b-c74c235d032a.png)
