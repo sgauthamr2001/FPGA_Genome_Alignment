@@ -1,81 +1,22 @@
 
-# Template project 
+### Banded Smith-Waterman in C 
 
-This is a template project for the course EE2003 at IIT Madras.
+This is a baseline software implementation of the Banded Smith-Waterman Algorithm, for inference on PicoRV32 core. This is a forked repository of [PicoRV32](https://github.com/YosysHQ/picorv32). 
 
-*Note*: This is a forked repository of PicoRV32 - the original README is available at [[README_picorv32.md]].
+#### Problem statement
 
-Acknowledgements:
+<p align = "justify"> The implementation problem is to align two sub-sequences of given length using the traditional Smith-Waterman Algorithm. But since, due the advancement of sequencing technologies, in most of the cases the alignment lies along the diagonal band, hence the alogirthm is modified to perform scoring and traceback in a band around the diagonal region and the same is implemented in software. The algorithm is of complexity O(mn), where m and n are the lengths of sub-sequences, and the scoring along the anti-diagonal regions are independent, these shall be utilised while builing the hardware. In software, the socring is done sequentially post-which traceback phase starts which is of complexity O(L), where L is the length of alignment. </p>
 
-- [PicoRV32](https://github.com/YosysHQ/picorv32) - from C. Wolf (YosysHQ).  
-- [NanoJPEG](https://keyj.emphy.de/nanojpeg/)
+<p align = "justify"> The input sequences are R, CCGTACTA and Q, CAGACCTA, where the following encoding is used for BPs, A: 1, T: 2, G: 3, C: 4 in software and a gap is represented by a 4. The result of the alignment is  C_GTAC_TA and CAG_ACCTA, the same has been obtained on simulating the software on core using verilator. All the temporary variables for the given problem size are stored on stack, and manual memory allocation is required if the size of the sub-sequences increases. </p>
 
+#### Simulation 
 
-## Problem statement
-This is a "starter" project that you can use in case you are unable to define a project of your own.  It includes the code for the [nanojpeg](https://keyj.emphy.de/nanojpeg/) decoder, with some modifications so that it can be run under the constrained environment of the picorv processor.
+<p align = "justify"> You will need to read through the code changes in 'axi4_mem_periph.v' and 'hello.c' (source C code) in order to understand how all these work.  You will need to understand them properly in order to make any changes or improvements in the code. The input is to be changed manually in the code 'hello.c', default values are used for simulation. </p>
 
-This means that you do not have access to things like File Input/Output, memory management (`malloc` etc.) or `printf` style statements that you can usually use for debugging.
+<p align = "justify"> 'verilator' is a faster verilog simulator which converts verilog code into C++, compiles it, and running the resulting executable. To run this, you can just type the below command. </p>
 
-To get around these the code has the following additions:
-
-- A set of functions have been defined in `njmem.c` that can allocate memory for random use.  It uses a very trivial form of memory allocation that only works because our program never needs to `free` memory and try to use it again later.  A set of addresses starting at `0x40000000` are defined for use with the memory management.
-- A set of addresses starting from `0x30000000` are defined for reading from the file.  You first need to run a pre-processing script (`firmware/jpg2hex.py`) to generate the file `firmware/jpg.hex` which will be mapped to this memory range.  This is marked as a read-only memory, so you can only read from that range of addresses.  Since the file size cannot be read this way, the script also puts the size of the file as an `int` in the first 4 bytes of the memory range.
-- Writing to the address `0x20000000` will result in dumping the appropriate byte into the file `output.dump`.  This means that you can use this to do the equivalent of a `fwrite` function in C.  However, the filename is always fixed as it cannot be changed from the C program.
-- There are also two functions defined in `hello.c` that can be used to read out the number of cycles from the CPU at any point.  This can be used, for example, to find out the time taken by the `njDecode` function.  More importantly, you can use a similar technique inside your code to get the time taken for other functions and find out which ones take the longest to run.
-
-You will need to read through the code changes in `axi4_mem_periph.v` and `hello.c` etc. in order to understand how all these work.  You will need to understand them properly in order to make any changes or improvements in the code.
-
-## How to run
-
-### Step 1 - Generate a suitable input
-The code comes with sample data in `firmware/jpg.hex` - this corresponds to the input file `firmware/k8x8.jpg`.  The hex file is generated as follows:
-```sh
-$ cd firmware
-$ python3 jpg2hex.py k8x8.jpg > jpg.hex
-```
-
-You can replace `k8x8.jpg` with some other JPEG file to try with that.  Note that the system has an overall memory limitation so any file larger than about 100x100 will most likely run into problems.
-
-### Step 2.1 - Build and run with iverilog
-```sh
-$ make
-```
-Just typing the above command (while you are in the `nanojpeg` folder, not inside one of the subfolders) will take care of compiling and running with iverilog.
-
-**WARNING**: This is *horrendously* slow - it takes about 6-7 *minutes* to run on the default input file, which is just a single JPEG macroblock and the entire image is of size 8 pixels by 7 pixels.
-
-Therefore if you try this with another file (say `kitten.jpg`, which is 24x22 macroblocks in size), you can expect it to take more than 3000 minutes -- that is, more than 2 days to run.  Please do not try this on the EE2003 server - if the system shows excessive load it will be restarted more than once a day as needed, so simulations will almost certainly not run to completion.
-
-### Step 2.2 - Build and run with verilator
-Fortunately, there is a *much* faster verilog simulator called `verilator`.  This works by first converting the Verilog code into C++, compiling it, and running the resulting executable.  This can actually finish simulating the entire `kitten.jpg` input in less than 1 minute.  If you want to test any changes to your code, you are strongly advised to use this approach.
-
-To run this, you can just type 
 ```sh
 $ make test_verilator
 ```
-This is already set up to take the exact same inputs and generate the same output.
 
-### Step 3 - understand the results
-When you run the code, you will see that it generates a file named `output.dump` in the main `nanojpeg` folder.  You can rename this file as `output.ppm`, and then it should be possible to view this file.  Note that you cannot view it on the server, you will need to download the file to your local machine and then view it.
-
-The default input will generate an image of a kitten that is 8x7 pixels in size -- in other words, if you recognize it as a kitten, you have a very good imagination.  Instead, the actual output generated by running the converter on another PC is also available in the file `firmware/k8x8.ppm`. 
-
-Note that there is currently a bug in the code that results in one extra byte being added to the output.  This means that you cannot directly compare the two files to check for correctness.  However, if you use the command
-```sh
-$ xxd output.dump
-```
-it will dump out the hex formatted output, and here you can see that it matches the original except for the last byte.
-
-## What to do next
-The present code not only runs the decoder, it also prints out the total number of clock cycles taken for the code to run.  The fact that it is slow in simulation is not relevant, so do not try to speed that up.  Instead, your goal should be to identify where the bottleneck is in the existing code, and to see if there are parts of it that can be accelerated in hardware.
-
-Converting the entire code to hardware is not just difficult, it is also probably a bad idea, since there is a lot of conditional logic which is well suited to software, but will result in very bad and irregularly structured hardware.
-
-On the other hand, certain blocks (in particular the DCT computations) are well suited to hardware implementation.  So if you can create a module (similar to the seq_mult in assignment 1) that takes in appropriate inputs, does the computations in hardware and returns the results, there is a chance that you may speed things up.
-
-Why only a chance?  Because the transfer of data into and out of the hardware module will require the CPU to do read/write or load/store operations.  It is quite possible that depending on how this is done, it may end up taking longer in hardware than to just do the computations in software.
-
-You will need to *instrument* your code to find out where your changes will be most effective - that is, put in appropriate `get_num_cycles` calls in places where you can trace the time taken.
-
-## Alternative ideas
-This is, as explained at the beginning, just a *starter* project.  You are welcome to build on this in any way you want, or even completely ignore it and do another project of your own.  For such projects, you are of course expected to run the ideas past the course instructor to ensure that your project idea is feasible and reasonable for the requirements of the course.
+The results obtained are printed out, and the same encoding defined previously for the base-pairs is used here as well.
