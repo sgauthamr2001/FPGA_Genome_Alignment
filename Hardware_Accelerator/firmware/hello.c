@@ -55,19 +55,19 @@ void StartAndWait(void)
     print_str("Accelerator started \n");
     
     p = (int *)READY;
-//	bool rdy = false;
+	bool rdy = false;
 	int count = 0;
-//	while (!rdy && (count < TIMEOUT)) {
-	while (count == TIMEOUT) {
-//    volatile int x = (*p); // read from READY
-//		if ((x & 0x01) == 1) rdy = true;
+	while (!rdy && (count < TIMEOUT)) {
+//	while (count == TIMEOUT) {
+    volatile int x = (*p); // read from READY
+		if ((x & 0x01) == 1) rdy = true;
 		count ++;
 	}
-/*
+
     if (count == TIMEOUT) {
 		print_str("TIMED OUT: did not get a 'rdy' signal back!");
 	}
-*/
+
     
 }
 
@@ -103,10 +103,10 @@ void hello(void)
 	print_str("Completed BSW in ");
 	print_dec(t_end - t_start);
 	print_str(" cycles.\n");
-//    int R_output = R_GetResult();
+    int R_output = R_GetResult();
     int Q_output = Q_GetResult();
     print_str("Printing the aligned sequences in hex.\n");
-    print_hex(*(int *)R_align,8);
+    print_hex(R_output,8);
     print_str("\n");
     print_hex(Q_output,8);
     print_str("\n");

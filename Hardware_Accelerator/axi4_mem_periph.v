@@ -38,8 +38,8 @@ module axi4_mem_periph #(
     
     wire ready;                        // Ready signal from the accelerator
     // Results sent back by the accelerator 
-    wire [31:0]   R_aligned;                   
-    wire [31:0]   Q_aligned;
+    wire [26:0]   R_aligned;                   
+    wire [26:0]   Q_aligned;
     
     // Initializing the accelerator module 
     
@@ -48,8 +48,8 @@ module axi4_mem_periph #(
         .start(reset), 
         .R(in_R),
         .Q(in_Q),
-        .R_aligned(R_aligned[29:0]),
-        .Q_aligned(Q_aligned[29:0]),
+        .R_aligned(R_aligned),
+        .Q_aligned(Q_aligned),
         .ready(ready)
     );
     
@@ -151,6 +151,7 @@ module axi4_mem_periph #(
             latched_raddr_en = 0; // Why?       
     end else begin
 			$display("OUT-OF-BOUNDS MEMORY READ FROM %08x", latched_raddr);
+        $display("%08x",Q_aligned);
 			$finish;
 		end
 	end endtask
