@@ -1,8 +1,8 @@
 ### Integrated Hardware Accelerator for BandedSW with picorv32 RISC-V processor(Verilog HDL)
 
-The developed hardware accelerator for the BandedSW function (implementing scoring, traceback, and alignment of subsequences of length 8, with a band of 4) was integrated with the picorv32 RISC-V processor for profiling and analysis. The axi4 bus was suitably modified for a memory mapped read/ write to the peripheral accelerator.
+<p align = "justify"> The developed hardware accelerator for the BandedSW function (implementing scoring, traceback, and alignment of subsequences of length 8, with a band of 4) was integrated with the picorv32 RISC-V processor for profiling and analysis. The axi4 bus was suitably modified for a memory mapped read/ write to the peripheral accelerator. </p>
 
-The subsequences to be aligned are written to the corresponding addresses. Subsequently, the start signal for the accelerator is asserted and deasserted, signalling the accelerator to start the computations. The code waits for a ready signal from the accelerator, which signals that the sequences have been aligned. The aligned sequences are read in from the corresponding addresses, and displayed on the command line.
+<p align = "justify"> The subsequences to be aligned are written to the corresponding addresses. Subsequently, the start signal for the accelerator is asserted and deasserted, signalling the accelerator to start the computations. The code waits for a ready signal from the accelerator, which signals that the sequences have been aligned. The aligned sequences are read in from the corresponding addresses, and displayed on the command line. </p>
 
 To run the simulation run : 
 ```
