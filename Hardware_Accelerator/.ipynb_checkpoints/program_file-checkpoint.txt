@@ -1,0 +1,8 @@
+accelerator_tb.v
+BandedSWAccelerator.v
+pe_top.v
+pe_unit.v
+shift_reg.v
+tbmodule.v
+xmem.v
+
