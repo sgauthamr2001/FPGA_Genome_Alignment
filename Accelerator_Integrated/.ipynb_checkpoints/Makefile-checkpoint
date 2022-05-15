@@ -61,7 +61,7 @@ testbench.vvp: testbench.v picorv32.v
 	$(IVERILOG) -o $@ $(subst C,-DCOMPRESSED_ISA,$(COMPRESSED_ISA)) $^
 	chmod -x $@
 
-testbench_mod.vvp: testbench_mod.v axi4_mem_periph.v picorv32.v BandedSWAccelerator.v pe_top.v pe_unit.v shift_reg.v tbmodule.v 
+testbench_mod.vvp: testbench_mod.v axi4_mem_periph.v picorv32.v bsw_acc.v pe_top.v pe_unit.v shift_reg.v traceback.v 
 
 	$(IVERILOG) -o $@ $(subst C,-DCOMPRESSED_ISA,$(COMPRESSED_ISA)) $^
 	chmod -x $@

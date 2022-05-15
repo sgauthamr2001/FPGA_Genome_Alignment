@@ -43,7 +43,7 @@ module axi4_mem_periph #(
     
     // Initializing the accelerator module 
     
-    BandedSWAccelerator accel (
+    bsw_acc accel (
         .clk(clk), 
         .start(reset), 
         .R(in_R),
