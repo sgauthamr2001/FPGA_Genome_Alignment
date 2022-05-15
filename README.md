@@ -3,7 +3,9 @@
 ### EE5332 Mapping DSP Algorithms to Architectures Course Project
 
 #### Primary Reference Paper
-Adaptively Banded Smith-Waterman Algorithm for Long Reads and its Hardware Accelerator, Liao et. al.[Paper can be accessed here](https://ieeexplore.ieee.org/document/8445105) 
+Adaptively Banded Smith-Waterman Algorithm for Long Reads and its Hardware Accelerator, Liao et. al.
+
+[Paper can be accessed here](https://ieeexplore.ieee.org/document/8445105) 
 
 #### Group Members
 - Sai Gautham Ravipati EE19B053
