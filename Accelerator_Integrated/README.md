@@ -17,3 +17,13 @@ This shall print out the aligned sub-sequences in hexadecimal.
 Schematic : 
 
 ![architecture](https://user-images.githubusercontent.com/85408861/168463388-df4f14fc-21f9-4a43-a98b-c74c235d032a.png)
+
+PE module:
+
+![pe_module](https://user-images.githubusercontent.com/85408861/168463410-75153e96-150e-4ea1-988b-32a35b5eff05.png)
+
+
+Traceback module:
+
+![traceback](https://user-images.githubusercontent.com/85408861/168463415-ded3ec96-b676-44fe-818c-7a409a6f7c14.png)
+
