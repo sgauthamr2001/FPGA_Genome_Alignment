@@ -1,6 +1,6 @@
 # FPGA_Genome_Alignment
 
-### EE5332, Mapping DSP Algorithms to Architectures, Course Project
+### EE5332, Mapping DSP Algorithms to Architectures, Course Project, Jan - May 2022
 
 #### Primary Reference Paper
 Adaptively Banded Smith-Waterman Algorithm for Long Reads and its Hardware Accelerator, Liao et. al.
