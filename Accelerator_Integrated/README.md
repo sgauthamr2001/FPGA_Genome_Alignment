@@ -1,18 +1,15 @@
-### Hardware Accelerator for BandedSW (Verilog HDL)
+### Integrated Hardware Accelerator for BandedSW with picorv32 RISC-V processor(Verilog HDL)
 
-- To exploit parallelism and efficient usage of data between computations, a systolic array based architecture is adopted with 4 PE units for a bandwidth of 4. 
-- Temporary data between scoring and traceback phase is stored in the BRAMs. 
-- Several modules above can be correlated with the schematic taken from source. 
+The developed hardware accelerator for the BandedSW function (implementing scoring, traceback, and alignment of subsequences of length 8, with a band of 4) was integrated with the picorv32 RISC-V processor for profiling and analysis. The axi4 bus was suitably modified for a memory mapped read/ write to the peripheral accelerator.
 
-To run the simulation following commands can be used : 
+The subsequences to be aligned are written to the corresponding addresses. Subsequently, the start signal for the accelerator is asserted and deasserted, signalling the accelerator to start the computations. The code waits for a ready signal from the accelerator, which signals that the sequences have been aligned. The aligned sequences are read in from the corresponding addresses, and displayed on the command line.
+
+To run the simulation run : 
 ```
-iverilog -o accelerator_tb -c program_file.txt
+make
 ```
-followed by, 
-```
-./accelerator_tb
-```
-This shall print out the aligned sub-sequences in hexadecimal.
+This shall print out the aligned sub-sequences in hexadecimal, and also the cycle counts taken for various parts of the integration.
+
 
 Schematic : 
 
