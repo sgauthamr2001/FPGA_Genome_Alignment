@@ -24,3 +24,4 @@ Traceback module:
 
 ![traceback](https://user-images.githubusercontent.com/85408861/168463415-ded3ec96-b676-44fe-818c-7a409a6f7c14.png)
 
+The Accelerator design was synthesized in Vivado using a ZYNC 7000 board and the hardware utilization report can be found in (Hardware_Utilization)(https://github.com/sgauthamr2001/FPGA_Genome_Alignment/blob/main/Accelerator_Integrated/BSW_acc_utilization_synth.rpt)
