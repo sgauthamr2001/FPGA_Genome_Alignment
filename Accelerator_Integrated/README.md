@@ -8,7 +8,7 @@ To run the simulation run :
 ```
 make
 ```
-This shall print out the aligned sub-sequences in hexadecimal, and also the cycle counts taken for various parts of the integration.
+This shall print out the aligned sub-sequences in hexadecimal with a 3 - bit encoding similar to hardware accelerator module, and also the cycle counts taken for various parts of the integration.
 
 
 Schematic : 
