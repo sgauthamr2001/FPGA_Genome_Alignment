@@ -11,28 +11,18 @@
 #include "stats_helper.c"
 
 #define L 9        // Length of sequence + 1
-#define B 4        // Bandwidth of the band 
+#define B 4    // Bandwidth of the band 
 
 void hello(void)
 {
-	int score_matrix[100];              // Array to store the score matrix 
-    int trace_matrix[100];              // Array to store the pointers for traceback 
-
-    for(int i = 0; i < 10; i++){
-        for(int j = 0; j < 10; j++){
-            score_matrix[i * L + j] = 0;        // Initialising score_matrix to 0
-            trace_matrix[i * L + j] = 0;        // Initialising trace_matrix to 0 
-        }
-    }
-
     // The following encoding is used for Genome Sequences,
     // A - 0,
     // T - 1,
     // G - 2,
     // C - 3.
     
-    int seq1[8];             // Stores reference sequence 
-    int seq2[8];             // Stores query sequence 
+    int seq1[L - 1];             // Stores reference sequence 
+    int seq2[L - 1];             // Stores query sequence 
     
     
     // Initialising sequence - 1 as: CCGTACTA
@@ -56,11 +46,21 @@ void hello(void)
     seq2[5] = 3;
     seq2[6] = 1;
     seq2[7] = 0;
-
-    int d_score, v_score, h_score;        // Temporary variable to store score data 
     
-    print_str("Starting the alignment.\n");
-    int t_start = get_num_cycles();
+    print_str("Starting the scoring phase.\n");
+    int s_start = get_num_cycles();
+    
+    int d_score, v_score, h_score;         // Temporary variable to store score data
+    int score_matrix[100];                 // Array to store the score matrix 
+    int trace_matrix[100];                 // Array to store the pointers for traceback 
+    
+    for(int i = 0; i < L + 1; i++){
+        score_matrix[i] = 0;               // Initialising row of score_matrix to 0
+        trace_matrix[i] = 0;               // Initialising row of trace_matrix to 0 
+        score_matrix[i * L] = 0;           // Initialising column of score_matrix to 0
+        trace_matrix[i * L] = 0;           // Initialiaing column of trace_matrix to 0
+    }
+    
     
     // Starting the score accumulation 
 
@@ -97,10 +97,21 @@ void hello(void)
         }
     }
     
+    int s_end  = get_num_cycles();
+    
+    // Priniting the cycle count for scoring 
+    
+    print_str("Completed scoring in ");
+	print_dec(s_end - s_start); 
+	print_str(" cycles.\n");
+    
+    print_str("Starting the tracking phase.\n");
+    int t_start = get_num_cycles();
+    
     // Variable decleration for back-tracing 
     
-    int align_seq1[17]; 
-    int align_seq2[17]; 
+    int align_seq1[L + 1]; 
+    int align_seq2[L + 1]; 
     int temp1 = 9; 
     int temp2 = 9; 
 
@@ -140,14 +151,14 @@ void hello(void)
     
     // Priniting the cycle count 
     
-    print_str("Completed in ");
+    print_str("Completed in traceback in ");
 	print_dec(t_end - t_start); 
 	print_str(" cycles.\n");
     
     // Printing the aligned sequence - 1
     
     print_str("Aligned Sequence - 1: ");
-    for(int k = 8; k >= 0; k--)
+    for(int k = L - 1; k >= 0; k--)
     {
         print_dec(align_seq1[k]);    
     }
@@ -156,7 +167,7 @@ void hello(void)
     // Printing the aligned sequence - 2 
     
     print_str("Aligned Sequence - 2: ");
-    for(int k = 8; k >= 0; k--)
+    for(int k = L - 1; k >= 0; k--)
     {
         print_dec(align_seq2[k]);    
     }   

@@ -26,18 +26,31 @@ int Q_GetResult(void);
 
 void R_Write(int x)
 {
+    int w_start = get_num_cycles();
     volatile int *p = (int *)R_base;
     *p = x;
+    int w_end = get_num_cycles();
+    print_str("Completed writing R to accelerator input in ");
+	print_dec(w_end - w_start);
+    print_str(" cycles.\n");
 }
 
 void Q_Write(int x)
 {
+    int w_start = get_num_cycles();
     volatile int *p = (int *)Q_base;
     *p = x;
+    int w_end = get_num_cycles();
+    print_str("Completed writing Q to accelerator input in ");
+	print_dec(w_end - w_start);
+    print_str(" cycles.\n");
 }
+
 
 void StartAndWait(void)
 {
+    print_str("Starting BSW.\n");
+    int t_start = get_num_cycles();
 	volatile int *p = (int *)RESET;
 	// Set the "reset" signal to 1 
 
@@ -52,59 +65,53 @@ void StartAndWait(void)
 	// If the "rdy" signal is connected to the LSB, this should happen
 	// after the forward pass is complete, shall print out incase of 
     // TIMEOUT.
-    print_str("Accelerator started \n");
     
     p = (int *)READY;
 	bool rdy = false;
 	int count = 0;
-	while (!rdy && (count < TIMEOUT)) {
-//	while (count == TIMEOUT) {
-    volatile int x = (*p); // read from READY
-		if ((x & 0x01) == 1) rdy = true;
-		count ++;
+	while (!rdy && (count < TIMEOUT)){
+        volatile int x = (*p); 
+            if ((x & 0x01) == 1) rdy = true;
+                count ++;
 	}
 
-    if (count == TIMEOUT) {
+    if (count == TIMEOUT){
 		print_str("TIMED OUT: did not get a 'rdy' signal back!");
 	}
-
     
-}
-
-int R_GetResult(void)
-{
-    volatile int *p = (int *)R_align;
-    print_str("Read in R successfully \n");
-    return (*p);
-}
-
-int Q_GetResult(void)
-{
-    volatile int *p = (int *)Q_align;
-    print_str("Read in Q successfully \n");    
-    return (*p);
+    int t_end = get_num_cycles();
+	print_str("Completed BSW in ");
+	print_dec(t_end - t_start);
+	print_str(" cycles.\n");
 }
 
 void hello(void)
 {
     int R = 0x006D10C8;
     int Q = 0x006106C8;
-    int w_start = get_num_cycles();
-    R_Write(R);
-    Q_Write(Q);
-    int w_end = get_num_cycles();
-    print_str("Completed writing data to accelerator in ");
-	print_dec(w_end - w_start);
+    
+    R_Write(R);                       // Writing R to input of the accelerator 
+    Q_Write(Q);                       // Writing Q to input of the accelerator 
+	StartAndWait();                   // Waiting for ready signal from the accelerator 
+    
+    // Reading results from the accelertor 
+    
+    print_str("Reading results from accelerator output.\n");
+    int r_start = get_num_cycles();
+    
+    volatile int *p = (int *)R_align;    
+    int R_output = *p;     
+    
+    p = (int *)Q_align;
+    int Q_output = *p;     
+    
+    int r_end = get_num_cycles();
+	print_str("Completed reading in ");
+	print_dec(r_end - r_start);
 	print_str(" cycles.\n");
-    print_str("Starting BSW.\n");
-    int t_start = get_num_cycles();
-	StartAndWait();
-    int t_end = get_num_cycles();
-	print_str("Completed BSW in ");
-	print_dec(t_end - t_start);
-	print_str(" cycles.\n");
-    int R_output = R_GetResult();
-    int Q_output = Q_GetResult();
+    
+    // Printing the results 
+    
     print_str("Printing the aligned sequences in hex.\n");
     print_hex(R_output,8);
     print_str("\n");
