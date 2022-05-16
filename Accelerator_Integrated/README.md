@@ -26,6 +26,16 @@ Traceback module:
 
 The Accelerator design was synthesized in Vivado using a ZYNC 7000 board and the hardware utilization report can be found in [Hardware_Utilization](https://github.com/sgauthamr2001/FPGA_Genome_Alignment/blob/main/Accelerator_Integrated/bsw_acc_utilization_synth.rpt) and the synthesis report can be found at [Synthesis Report](https://github.com/sgauthamr2001/FPGA_Genome_Alignment/blob/main/Accelerator_Integrated/bsw_acc_synth_report.vds)
 
-Timing Summary after synthesis in Vivado:
+Timing Summary of the accelerator after synthesis in Vivado:
 
-![image](https://user-images.githubusercontent.com/85408861/168473815-456e3554-9922-4953-a732-74141a6d5f89.png)
+![image1](https://user-images.githubusercontent.com/85408861/168473815-456e3554-9922-4953-a732-74141a6d5f89.png)
+
+Timing Summary of the PE module alone after synthesis in Vivado: 
+
+![image2](https://user-images.githubusercontent.com/63749705/168651154-d13a89e1-6c85-4464-864a-8ead3c70742b.jpg)
+
+Timing Summary of the traceback module alone after synthesis in Vivado: 
+
+![image3](https://user-images.githubusercontent.com/63749705/168651272-eebe99df-871a-4a8b-add8-3a8022b43176.jpg)
+
+
