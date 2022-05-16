@@ -33,4 +33,13 @@ A hardware accelerator was developed based on the architecture proposed in the p
 
 The developed hardware accelerator is integrated with the picorv32 processor to profile and analyze the dependencies involved. More details on this can be found in the folder [Accelerator_Integrated](./Accelerator_Integrated/).
 
+#### References: 
+
+- [Aligning two sequences within a specified diagonal band, Chao et al.](https://pubmed.ncbi.nlm.nih.gov/1422882/)
+- [Adaptively Banded Smith Waterman algorithm for long reads and its hardware accelerator, Liao et al.](https://ieeexplore.ieee.org/document/8445105)
+- [Darwin: A hardware-acceleration framework for genomic sequence alignment, Turakhia et al.](https://www.biorxiv.org/content/10.1101/092171v2)
+- [PipeBSW: A Two-Stage Pipeline Structure for Banded Smith-Waterman Algorithm on FPGA, Li et al.](https://ieeexplore.ieee.org/document/9516752)
+- [A part of the baseline Python code for BandedSW was adapted from here](https://github.com/slavianap/Smith-Waterman-Algorithm/blob/master/Script.py)
+- [BLAST: Basic Local Alognment Search Tool](https://blast.ncbi.nlm.nih.gov/Blast.cgi)
+
 
