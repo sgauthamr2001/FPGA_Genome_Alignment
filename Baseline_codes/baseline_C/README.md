@@ -16,7 +16,7 @@ This is a baseline software implementation of the Banded Smith-Waterman Algorith
 <p align = "justify"> 'verilator' is a faster verilog simulator which converts verilog code into C++, compiles it, and running the resulting executable. To run this, you can just type the below command. </p>
 
 ```sh
-$ make test_verilator
+$ make 
 ```
 
 The results obtained are printed out, and the same encoding defined previously for the base-pairs is used here as well.
