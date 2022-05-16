@@ -1,4 +1,0 @@
-read_verilog bsw_acc.v pe_top.v pe_unit.v shift_reg.v traceback.v 
-synth_xilinx -top bsw_acc
-write_verilog bsw_acc_synth.v
-

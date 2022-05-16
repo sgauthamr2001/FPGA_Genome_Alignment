@@ -1,3 +1,0 @@
-accelerator_tb_synth.v
-bsw_acc_synth.v
-/usr/share/yosys/xilinx/cells_sim.v
