@@ -11,9 +11,9 @@ This is a baseline software implementation of the Banded Smith-Waterman Algorith
 
 #### Simulation 
 
-<p align = "justify"> You will need to read through the code changes in 'axi4_mem_periph.v' and 'hello.c' (source C code) in order to understand how all these work.  You will need to understand them properly in order to make any changes or improvements in the code. The input is to be changed manually in the code 'hello.c', default values are used for simulation. </p>
+<p align = "justify"> The baseline code has been written in the 'hello.c' file. The input is to be changed manually in the code 'hello.c', default values are used for simulation. </p>
 
-<p align = "justify"> 'verilator' is a faster verilog simulator which converts verilog code into C++, compiles it, and running the resulting executable. To run this, you can just type the below command. </p>
+<p align = "justify"> To run the simulations, just type the below command. </p>
 
 ```sh
 $ make 
